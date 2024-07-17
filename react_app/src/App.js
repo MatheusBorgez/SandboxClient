@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
-import Header from './Header';
+import Header from './components/Header.js';
+import Body from './components/Body.js';
+
 
 function App() {
 
-  const [ counter, setCounter ] = useState(0);
-
-  function soma() {
-    setCounter(counter + 1);
-  }
-
-  function subtracao() {
-    setCounter(counter - 1);
-  }
-
   return (
-    <>
-    <Header/>
-    <h1>{counter}</h1>
-    <button onClick={soma}> + </button>
-    <button onClick={subtracao}> - </button>
-    </>
+    <div id="app" >
 
+      <main className="gray">
+        <div className="title text-white">
+          <Header />
+        </div>
+        <div className="content"> 
+          <Body />
+        </div>
+      </main>
+    </div>
   );
 }
 

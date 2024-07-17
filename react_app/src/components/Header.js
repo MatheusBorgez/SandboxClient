@@ -2,7 +2,7 @@ import React from "react";
 
 function Header() {
     return (
-        <h1>Ta funcionando até dms</h1>
+        <h1>Cadastro de filmes</h1>
     )
 }
 
