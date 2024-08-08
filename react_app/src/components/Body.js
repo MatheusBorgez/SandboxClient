@@ -1,26 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import MainGrid from './MainGrid';
+import ModalInsert from './ModalInsert';
+import api from "../services/api";
 
 function Body() {
+
+    const [data, setData] = useState([]);
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    useEffect(() => {
+        api
+          .get()
+          .then((response) => setData(response.data))
+          .catch((err) => {
+            console.error("ops! ocorreu um erro" + err);
+          });
+      }, []);
+
     return (
+        <>
+            <div class="text-white">
 
-        <div class="text-white">
-            <MainGrid>
-            </MainGrid>
+                <Button variant="primary" onClick={handleShow}>
+                    Cadastrar
+                </Button>
 
-            <form class="col-md-12">
-                <div className='input-block'>
-                    <label htmlFor='title'>titulo teste</label>
-                    <input />
-                </div>
-                <div className='input-block'>
-                    <label htmlFor='nota'>anotação</label>
-                    <textarea></textarea>
-                </div>
-                <Button type='submit'>salvar</Button>
-            </form>
-        </div>
+                <ModalInsert show={show} handleClose={handleClose} />
+
+                <MainGrid data={data}>
+                </MainGrid>
+            </div>
+        </>
     )
 }
 
