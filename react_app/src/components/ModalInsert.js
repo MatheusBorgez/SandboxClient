@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import api from '../services/api'
 
-function ModalInsert({ show, handleClose, handleSave }) {
+function ModalInsert({ show, handleClose }) {
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        handleSave(formData);
+        api.post('/', formData)
+        .then(response => {
+            console.log('Sucesso!', response.data)
+            handleClose()
+        }).catch((err) => {
+            console.error("erro:", err);
+        });
         handleClose();
     };
+
+    const valid = true;
 
     const [formData, setFormData] = useState({
         title: '',
@@ -16,6 +24,7 @@ function ModalInsert({ show, handleClose, handleSave }) {
         imageUrl: '',
         description: '',
         releaseDate: '',
+        imdb: '',
     })
 
     const handleChange = (e) => {
@@ -78,6 +87,15 @@ function ModalInsert({ show, handleClose, handleSave }) {
                                 rows={3}
                                 name="description"
                                 value={formData.description}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="formImdb">
+                            <Form.Label>IMDB</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="imdb"
+                                value={formData.imdb}
                                 onChange={handleChange}
                             />
                         </Form.Group>
