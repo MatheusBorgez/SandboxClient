@@ -21,9 +21,14 @@ function MainGrid({ data, updateData }) {
       }).catch((err) => {
         console.error("erro:", err);
       });
-
-    const updatedData = data.filter(item => item._id !== selectedMovie); // Supondo que cada item tenha um ID
+      const updatedData = data.filter(item => item._id !== selectedMovie)
     updateData(updatedData);
+  }
+
+  const handleEditData = (editData) => {
+    const updatedData = data.filter(item => item._id !== selectedMovie)
+    updatedData.push(editData)
+    updateData(updatedData)
   }
 
   return (
@@ -73,7 +78,7 @@ function MainGrid({ data, updateData }) {
       </Table>
 
       <ModalMaisInformacoes show={showMaisInformacoes} selectedMovie={selectedMovie} handleClose={() => setShowMaisInformacoes(false)} />
-      <ModalInsert show={showInsert} selectedMovie={selectedMovie} handleClose={() => setShowInsert(false)} isEdit={showInsert} />
+      <ModalInsert show={showInsert} selectedMovie={selectedMovie} handleClose={() => setShowInsert(false)} isEdit={showInsert} handleNewData={handleEditData} />
       <ModalDelete show={showDelete} selectedMovie={selectedMovie} handleClose={() => setShowDelete(false)} handleDelete={handleDelete} />
 
     </>

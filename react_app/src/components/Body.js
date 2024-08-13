@@ -24,6 +24,10 @@ function Body() {
         setData(data);
     }
 
+    const addNewData = (newData) => {        
+        updateData(data.push(newData))
+    }
+
     return (
         <>
             <div class="text-white p-3">
@@ -32,7 +36,7 @@ function Body() {
                     Cadastrar
                 </Button>
 
-                <ModalInsert show={show} handleClose={handleClose} updateNewData={(newData) => updateData(data.push(newData))} />
+                <ModalInsert show={show} handleClose={handleClose} updateNewData={addNewData} />
 
                 <MainGrid data={data} updateData={updateData}>
                 </MainGrid>

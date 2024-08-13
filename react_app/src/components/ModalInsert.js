@@ -2,32 +2,33 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import api from '../services/api'
 
-function ModalInsert({ show, handleClose, selectedMovie, isEdit, updateNewData}) {
+function ModalInsert({ show, handleClose, selectedMovie, isEdit, handleNewData }) {
 
     const handleSubmit = (e) => {
-        
+
         if (selectedMovie === '' && show) {
             return;
         }
 
         if (formData._id !== '') {
             api.put(`${formData._id}`, formData)
-            .then(response => {
-                console.log('Sucesso!', response.data)
-                updateNewData(response.data)
-            }).catch((err) => {
-                console.error("erro:", err);
-            });
+                .then(response => {
+                    console.log('Sucesso!', response.data)
+                    handleNewData(response.data)
+                }).catch((err) => {
+                    console.error("erro:", err);
+                });
+                return;
         }
 
         api.post('/', formData)
-        .then(response => {
-            console.log('Sucesso!', response.data)
-            updateNewData(response.data)
-            handleClose()
-        }).catch((err) => {
-            console.error("erro:", err);
-        });
+            .then(response => {
+                console.log('Sucesso!', response.data)
+                handleNewData(response.data)
+                handleClose()
+            }).catch((err) => {
+                console.error("erro:", err);
+            });
     };
 
     const [formData, setFormData] = useState({
@@ -37,19 +38,23 @@ function ModalInsert({ show, handleClose, selectedMovie, isEdit, updateNewData})
         genre: '',
         imageUrl: '',
         description: '',
-        releaseDate: '',
+        releaseDate: new Date(),
         imdb: '',
     })
 
-    if (isEdit) {
+    const getSelectedMovie = () => {
+        if (isEdit) {
 
-        api.get(selectedMovie)
-           .then((response) => setFormData(response.data))
-           .catch((err) => {
-               console.error("ops! ocorreu um erro" + err);
-           });
+            api.get(selectedMovie)
+                .then((response) => {
+                    setFormData(response.data);
+                })
+                .catch((err) => {
+                    console.error("ops! ocorreu um erro" + err);
+                });
+        }
     }
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -60,7 +65,7 @@ function ModalInsert({ show, handleClose, selectedMovie, isEdit, updateNewData})
 
     return (
         <>
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal show={show} onHide={handleClose} centered onEnter={getSelectedMovie}>
                 <Modal.Header closeButton className="bg-dark text-white">
                     <Modal.Title>Adicione um filme</Modal.Title>
                 </Modal.Header>
