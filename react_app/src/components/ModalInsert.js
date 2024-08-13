@@ -2,22 +2,36 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import api from '../services/api'
 
-function ModalInsert({ show, handleClose }) {
+function ModalInsert({ show, handleClose, selectedMovie, isEdit, updateNewData}) {
 
     const handleSubmit = (e) => {
+        
+        if (selectedMovie === '' && show) {
+            return;
+        }
+
+        if (formData._id !== '') {
+            api.put(`${formData._id}`, formData)
+            .then(response => {
+                console.log('Sucesso!', response.data)
+                updateNewData(response.data)
+            }).catch((err) => {
+                console.error("erro:", err);
+            });
+        }
+
         api.post('/', formData)
         .then(response => {
             console.log('Sucesso!', response.data)
+            updateNewData(response.data)
             handleClose()
         }).catch((err) => {
             console.error("erro:", err);
         });
-        handleClose();
     };
 
-    const valid = true;
-
     const [formData, setFormData] = useState({
+        _id: '',
         title: '',
         duration: '',
         genre: '',
@@ -27,6 +41,15 @@ function ModalInsert({ show, handleClose }) {
         imdb: '',
     })
 
+    if (isEdit) {
+
+        api.get(selectedMovie)
+           .then((response) => setFormData(response.data))
+           .catch((err) => {
+               console.error("ops! ocorreu um erro" + err);
+           });
+    }
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -37,7 +60,7 @@ function ModalInsert({ show, handleClose }) {
 
     return (
         <>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton className="bg-dark text-white">
                     <Modal.Title>Adicione um filme</Modal.Title>
                 </Modal.Header>

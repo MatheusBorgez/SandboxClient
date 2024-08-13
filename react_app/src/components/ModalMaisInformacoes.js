@@ -8,7 +8,7 @@ function ModalMaisInformacoes({ selectedMovie, show, handleClose }) {
 
     useEffect(() => {
 
-        if (selectedMovie === '') {
+        if (selectedMovie === '' && show) {
             return;
         }
 
@@ -17,11 +17,11 @@ function ModalMaisInformacoes({ selectedMovie, show, handleClose }) {
            .catch((err) => {
                console.error("ops! ocorreu um erro" + err);
            });
-    }, [selectedMovie]);
+    }, [selectedMovie, show]);
 
     return (
         <>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton className="bg-dark text-white">
                     <Modal.Title>{foundMovie.title}</Modal.Title>
                 </Modal.Header>

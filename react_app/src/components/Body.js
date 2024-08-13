@@ -13,25 +13,28 @@ function Body() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        api
-          .get()
-          .then((response) => setData(response.data))
-          .catch((err) => {
-            console.error("ops! ocorreu um erro" + err);
-          });
-      }, []);
+        api.get()
+            .then((response) => setData(response.data))
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
+    }, []);
+
+    const updateData = (data) => {
+        setData(data);
+    }
 
     return (
         <>
-            <div class="text-white">
+            <div class="text-white p-3">
 
-                <Button variant="primary" onClick={handleShow}>
+                <Button className='btn-success mb-3' onClick={handleShow}>
                     Cadastrar
                 </Button>
 
-                <ModalInsert show={show} handleClose={handleClose} />
+                <ModalInsert show={show} handleClose={handleClose} updateNewData={(newData) => updateData(data.push(newData))} />
 
-                <MainGrid data={data}>
+                <MainGrid data={data} updateData={updateData}>
                 </MainGrid>
             </div>
         </>
