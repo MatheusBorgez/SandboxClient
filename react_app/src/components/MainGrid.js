@@ -15,7 +15,7 @@ function MainGrid({ data, updateData }) {
   const [showDelete, setShowDelete] = useState(false);
 
   const handleDelete = () => {
-    api.delete(`/${selectedMovie}`)
+    api.delete(`/movies/${selectedMovie}`)
       .then(response => {
         console.log('Sucesso!', response.data)
       }).catch((err) => {

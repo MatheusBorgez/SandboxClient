@@ -11,7 +11,7 @@ function ModalInsert({ show, handleClose, selectedMovie, isEdit, handleNewData }
         }
 
         if (formData._id !== '') {
-            api.put(`${formData._id}`, formData)
+            api.put(`/movies/${formData._id}`, formData)
                 .then(response => {
                     console.log('Sucesso!', response.data)
                     handleNewData(response.data)
@@ -21,7 +21,7 @@ function ModalInsert({ show, handleClose, selectedMovie, isEdit, handleNewData }
                 return;
         }
 
-        api.post('/', formData)
+        api.post('/movies', formData)
             .then(response => {
                 console.log('Sucesso!', response.data)
                 handleNewData(response.data)
@@ -45,7 +45,7 @@ function ModalInsert({ show, handleClose, selectedMovie, isEdit, handleNewData }
     const getSelectedMovie = () => {
         if (isEdit) {
 
-            api.get(selectedMovie)
+            api.get(`/movies/${selectedMovie}`)
                 .then((response) => {
                     setFormData(response.data);
                 })
@@ -67,7 +67,7 @@ function ModalInsert({ show, handleClose, selectedMovie, isEdit, handleNewData }
         <>
             <Modal show={show} onHide={handleClose} centered onEnter={getSelectedMovie}>
                 <Modal.Header closeButton className="bg-dark text-white">
-                    <Modal.Title>Adicione um filme</Modal.Title>
+                    <Modal.Title>{isEdit ? 'Editar' : 'Adicionar'} filme</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body className="bg-dark text-white">

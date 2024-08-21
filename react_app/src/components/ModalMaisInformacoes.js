@@ -12,7 +12,7 @@ function ModalMaisInformacoes({ selectedMovie, show, handleClose }) {
             return;
         }
 
-        api.get(selectedMovie)
+        api.get(`/movies/${selectedMovie}`)
            .then((response) => setFoundMovie(response.data))
            .catch((err) => {
                console.error("ops! ocorreu um erro" + err);

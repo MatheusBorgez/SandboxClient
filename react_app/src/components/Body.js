@@ -13,7 +13,7 @@ function Body() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        api.get()
+        api.get('/movies')
             .then((response) => setData(response.data))
             .catch((err) => {
                 console.error("ops! ocorreu um erro" + err);
